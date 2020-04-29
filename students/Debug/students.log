@@ -1,6 +1,0 @@
-﻿  MarksWorker.cpp
-C:\Users\anon2\source\repos\students\students\MarksWorker.cpp(57,21): warning C4018:  <: несоответствие типов со знаком и без знака
-C:\Users\anon2\source\repos\students\students\MarksWorker.cpp(84,20): warning C4018:  <: несоответствие типов со знаком и без знака
-C:\Users\anon2\source\repos\students\students\MarksWorker.cpp(29): warning C4172:  возвращение адреса локальной или временной переменной : i
-C:\Users\anon2\source\repos\students\students\MarksWorker.cpp(98): warning C4172:  возвращение адреса локальной или временной переменной : m
-  students.vcxproj -> C:\Users\anon2\source\repos\students\Debug\students.exe
