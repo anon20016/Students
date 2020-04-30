@@ -1,13 +1,38 @@
-﻿// students.cpp : Этот файл содержит функцию "main". Здесь начинается и заканчивается выполнение программы.
-//
-
-#include <iostream>
+﻿#include <iostream>
+#include <time.h>
 #include "StudentsWorker.h"
 #include "SubjectWorker.h"
 #include "MarksWorker.h"
 
 using namespace std;
 
+//Проверка строки на правильность ввода (пустая строка)
+bool enterString(string* s, string text) {
+	cout << text << ": ";
+	cin >> *s;
+	if (s->size() == 0) {
+		cout << "Ошибка ввода, повторите ввод: ";
+		cin >> *s;
+		if (s->size() == 0) {
+			cout << "Ошибка ввода\n";
+			return false;
+		}
+	}
+	return true;
+}
+
+//Проверка правильности ввода даты
+bool checkDate(string str) {
+	static std::regex rgx{ R"((0[1-9]|[12][0-9]|3[01])[- /.](0[1-9]|1[012])[- /.](19|20\d\d))" };
+	std::smatch res;
+	if (std::regex_search(str, res, rgx))
+	{		
+		return true;
+	}
+	return false;
+}
+
+//Вывод меню
 void menu() {
 	cout << "Введите команду:\n1, если хотите добавить студента\n";
 	cout << "2, если хотите удалить студента\n";
@@ -24,12 +49,14 @@ void menuPrintStud() {
 	cout << "Введите 1, если хотите вывести только имена студентов с их id\n";
 	cout << "Введите 2, если хотите вывести всю информацию о студентах\n";
 	cout << "Введите 3, если хотите вывести всю информацию о студентах с оценками\n";
+	cout << "Введите 4, если хотите получить информацию о студентах, отсортированных по средней оценке\n";
 }
 void menuPrintSubj() {
 	cout << "Введите 1, если хотите вывести только названия предметов с их id\n";
 	cout << "Введите 2, если хотите вывести всю информацию о предметах\n";
 }
 
+//Выставление оценки
 void SetMark(StudentsWorker* sw, SubjectWorker* sbw, MarksWorker * mw) {
 	int stdid, sbjid, val, id;
 	cout << "Введите id студента ";
@@ -74,26 +101,41 @@ void PrintSubj(StudentsWorker * sw, SubjectWorker * sbw, MarksWorker* mw) {
 }
 void AddStud(StudentsWorker * sw) {
 	string name, scname, patro, dob, dor, fac, group, rb, id;
+	char g;
+	enterString(&name, "Введите имя");
+	enterString(&scname, "Введите фамилию");
+	enterString(&patro, "Введите отчество");
 
-	cout << "Введите имя ";
-	cin >> name;
-	cout << "Введите фамилию ";
-	cin >> scname;
-	cout << "Введите отчество ";
-	cin >> patro;
-	cout << "Введите дату рождения в формате ДД.ММ.ГГГГ ";
+	cout << "Введите пол (m или f) ";
+	cin >> g;
+	if (g != 'm' && g != 'f') {
+		cout << "Ошибка ввода, повторите ввод (m или f): " << endl;
+		cin >> g;
+		if (g != 'm' && g != 'f') {
+			cout << "Ошибка ввода\n";
+			return;
+		}
+	}
+	cout << "Введите дату рождения в формате ДД.ММ.ГГГГ: ";
 	cin >> dob;
+	if (!checkDate(dob)) {
+		cout << "Ошибка ввода, повторите ввод: ";
+		cin >> dob;
+		if (!checkDate(dob)) {
+			"Ошибка ввода\n";
+			return;
+		}
+	}	
 
+	struct tm tim;
+	time_t tt = time(NULL);
+	localtime_s(&tim, &tt);
+	dor = to_string(tim.tm_mday) + "/" + to_string(1 + tim.tm_mon) + "/" + to_string(1900 + tim.tm_year);
 
-	dor = "01.01.1999";
-	cout << "Введите факультет ";
-	cin >> fac;
-	cout << "Введите группу ";
-	cin >> group;
-	cout << "Введите номер зачетки ";
-	cin >> rb;
-
-	id = sw->AddStudent(Student(-1, name, scname, patro, Date(dob), dor, fac, group, rb));
+	enterString(&fac, "Введите факультет");
+	enterString(&group, "Введите группу");
+	enterString(&rb, "Введите номер зачетки");
+	id = sw->AddStudent(Student(-1, name, scname, patro, g, Date(dob), dor, fac, group, rb));
 
 	cout << "Студент добавлен под id = " << id << endl;
 }
@@ -109,31 +151,38 @@ void DeleteStud(StudentsWorker * sw) {
 	}
 }
 void PrintStud(StudentsWorker * sw, SubjectWorker * sbw, MarksWorker* mw) {
-	string* list;
-	int* ids;
-	vector<int> m;
+	vector<string> list;
+	char g = 'b';
+	vector<int> m, ids;
+	vector<pair<int, string> > a;
 	int comand;
 	menuPrintStud();
 	cin >> comand;
+	cout << "Введите b, если хотите вывести всех студентов\n        m, если хотите вывести только студентов мужского пола\n        f, если хотите вывести студентов женского пола\n";
+	cin >> g;
+	if (g != 'b' && g != 'f' && g != 'm') {
+		cout << "Ошибка ввода";
+		return;
+	}
 	switch (comand)
 	{
 	case 1:
-		list = sw->studNames();
-		for (int i = 0; i < sw->Count(); i++) {
+		list = sw->studNames(g);
+		for (int i = 0; i < list.size(); i++) {
 			cout << list[i] << endl;
 		}
 		break;
 
 	case 2:
-		list = sw->getInfo();
-		for (int i = 0; i < sw->Count(); i++) {
+		list = sw->getInfo(g);
+		for (int i = 0; i < list.size(); i++) {
 			cout << list[i] << endl;
 		}
 		break;
 	case 3:
-		ids = sw->getAllId();
-		list = sw->getInfo();
-		for (int i = 0; i < sw->Count(); i++) {
+		ids = sw->getAllId(g);
+		list = sw->getInfo(g);
+		for (int i = 0; i < list.size(); i++) {
 			cout << list[i] << " Marks: ";
 
 			m = mw->getMarksForStudent(ids[i]);
@@ -143,6 +192,30 @@ void PrintStud(StudentsWorker * sw, SubjectWorker * sbw, MarksWorker* mw) {
 			cout << endl;
 		}
 		break;
+	case 4:
+		ids = sw->getAllId(g);
+		list = sw->getInfo(g);
+		a.resize(list.size());
+		for (int i = 0; i < list.size(); i++) {
+			a[i].second = list[i];
+			m = mw->getMarksForStudent(ids[i]);
+			double sum = 0;
+			for (auto j : m) {
+				sum += j;
+			}
+			if (m.size() == 0) {
+				a[i].first = -1;
+			}
+			else {
+				a[i].first = sum / m.size();
+			}
+		}
+		sort(a.begin(), a.end());
+		reverse(a.begin(), a.end());
+		for (auto i : a) {
+			cout << i.second << " Средний балл: " << i.first << endl;
+		}
+		break;
 	default:
 		break;
 	}
@@ -150,11 +223,8 @@ void PrintStud(StudentsWorker * sw, SubjectWorker * sbw, MarksWorker* mw) {
 
 void AddSubj(SubjectWorker * sbw) {
 	string name, info;
-
-	cout << "Введите название ";
-	cin >> name;
-	cout << "Введите информацию ";
-	cin >> info;	
+	enterString(&name, "Введите название");
+	enterString(&info, "Введите информацию");
 
 	int id = sbw->AddSubject(Subject(-1, name, info));
 
@@ -168,7 +238,7 @@ void DeleteSubj(SubjectWorker * sbw) {
 		sbw->DeleteSubjectById(id);
 	}
 	else {
-		cout << "Нет предмета с таким id";
+		cout << "Нет предмета с таким id\n";
 	}
 }
 
@@ -201,6 +271,7 @@ int main()
 			break;
 		case 4:
 			DeleteSubj(&sbw);
+			break;
 		case 5:
 			SetMark(&sw, &sbw, &mw);
 			break;
@@ -217,24 +288,10 @@ int main()
 			return 0;
 			break;
 		default:
-			cout << "Неправильная команда, повторите ввод.";
+			cout << "Неправильная команда, повторите ввод";
 			break;
 		}
 		menu();
 		cin >> c;
 	}
-	
-
-
 }
-
-// Запуск программы: CTRL+F5 или меню "Отладка" > "Запуск без отладки"
-// Отладка программы: F5 или меню "Отладка" > "Запустить отладку"
-
-// Советы по началу работы 
-//   1. В окне обозревателя решений можно добавлять файлы и управлять ими.
-//   2. В окне Team Explorer можно подключиться к системе управления версиями.
-//   3. В окне "Выходные данные" можно просматривать выходные данные сборки и другие сообщения.
-//   4. В окне "Список ошибок" можно просматривать ошибки.
-//   5. Последовательно выберите пункты меню "Проект" > "Добавить новый элемент", чтобы создать файлы кода, или "Проект" > "Добавить существующий элемент", чтобы добавить в проект существующие файлы кода.
-//   6. Чтобы снова открыть этот проект позже, выберите пункты меню "Файл" > "Открыть" > "Проект" и выберите SLN-файл.

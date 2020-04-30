@@ -77,29 +77,53 @@ int StudentsWorker::Count()
 	return stud.size();
 }
 
-string* StudentsWorker::studNames()
+vector<string> StudentsWorker::studNames(char g)
 {
-	string* a = new string[stud.size()];
+	vector<string> a;
 	for (int i = 0; i < stud.size(); i++) {
-		a[i] = to_string(stud[i].getId()) + " " + stud[i].getName();
+		if (g == 'b') {
+			a.push_back(to_string(stud[i].getId()) + " " + stud[i].getName());
+		}
+		if (g == 'm' && stud[i].getGender() == 'm') {
+			a.push_back(to_string(stud[i].getId()) + " " + stud[i].getName());
+		}
+		if (g == 'f' && stud[i].getGender() == 'f') {
+			a.push_back(to_string(stud[i].getId()) + " " + stud[i].getName());
+		}
 	}
 	return a;
 }
 
-string* StudentsWorker::getInfo()
+vector<string> StudentsWorker::getInfo(char g)
 {
-	string* a = new string[stud.size()];
+	vector<string> a;
 	for (int i = 0; i < stud.size(); i++) {
-		a[i] = stud[i].ToString();
+		if (g == 'b') {
+			a.emplace_back(stud[i].ToString());
+		}
+		if (g == 'm' && stud[i].getGender() == 'm') {
+			a.emplace_back(stud[i].ToString());
+		}
+		if (g == 'f' && stud[i].getGender() == 'f') {
+			a.emplace_back(stud[i].ToString());
+		}
 	}
 	return a;
 }
 
-int* StudentsWorker::getAllId()
+vector<int> StudentsWorker::getAllId(char g)
 {
-	int* r = new int[Count()];
+	vector<int> r;
 	for (int i = 0; i < stud.size(); i++) {
-		r[i] = stud[i].getId();
+		if (g == 'b') {
+			r.emplace_back(stud[i].getId());
+		}
+		if (g == 'm' && stud[i].getGender() == g) {
+			r.emplace_back(stud[i].getId());
+		}
+		if (g == 'f' && stud[i].getGender() == g) {
+			r.emplace_back(stud[i].getId());
+		}
 	}
 	return r;
 }

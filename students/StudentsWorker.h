@@ -20,9 +20,11 @@ public:
 	bool existId(int id);
 
 	int Count();
-	string* studNames();
-	string* getInfo();
-	int* getAllId();
+	vector<string> studNames(char g);
+	vector<string> getInfo(char g);
+	vector<int> getAllId(char g);
+
+	
 private:
 	string path;
 	vector<Student> stud;

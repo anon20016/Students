@@ -12,6 +12,7 @@ private:
 	string Name;
 	string SecName;
 	string Patronymic;
+	char Gender;
 	Date DayOfBirth;
 	Date YearStart;
 	string Faculty;
@@ -19,7 +20,7 @@ private:
 	string RecordBook;
 public:
 	Student();
-	Student(int id, string name, string secname, string patro, Date dayofbirth, Date yearstart,
+	Student(int id, string name, string secname, string patro, char g, Date dayofbirth, Date yearstart,
 		string faculttm, string group, string recbook);
 	Student(const Student& s);
 	Student(string s);
@@ -33,6 +34,7 @@ public:
 	string getRecordBook();
 	string getFaculty();
 	string getGroup();
+	char getGender();
 
 	void setId(int id);
 	void setName(string name);
@@ -43,11 +45,10 @@ public:
 	void setRecordBook(string r);
 	void setFaculty(string f);
 	void setGroup(string g);
+	void setGender(char c);
 
-
-	void setStudent(int id, string name, string secname, string patro, Date dayofbirth, Date yearstart,
+	void setStudent(int id, string name, string secname, string patro, char g, Date dayofbirth, Date yearstart,
 		string faculttm, string group, string recbook);
-	void print() const;
 
 	string ToString();
 };

@@ -9,6 +9,7 @@ Student::Student()
 	Name = string();
 	SecName = string();
 	Patronymic = string();
+	
 	DayOfBirth = Date();
 	YearStart = Date();
 	Faculty = string();
@@ -16,15 +17,15 @@ Student::Student()
 	RecordBook = string();
 }
 
-Student::Student(int id, string name, string secname, string patro, Date dayofbirth,
+Student::Student(int id, string name, string secname, string patro, char g,  Date dayofbirth,
 	Date yearstart, string faculttm, string group, string recbook)
 {
-	setStudent(id, name, secname, patro, dayofbirth, yearstart, faculttm, group, recbook);
+	setStudent(id, name, secname, patro, g, dayofbirth, yearstart, faculttm, group, recbook);
 }
 
 Student::Student(const Student& s)
 {
-	setStudent(s.Id, s.Name, s.SecName, s.Patronymic, s.DayOfBirth, s.YearStart, s.Faculty, s.Group, s.RecordBook);
+	setStudent(s.Id, s.Name, s.SecName, s.Patronymic, s.Gender, s.DayOfBirth, s.YearStart, s.Faculty, s.Group, s.RecordBook);
 }
 
 Student::Student(string s)
@@ -53,18 +54,21 @@ Student::Student(string s)
 				setPatronymic(p);
 				break;
 			case 4:
-				setDayOfBirth(Date(p));
+				setGender(p[0]);
 				break;
 			case 5:
-				setYearStart(Date(p));
+				setDayOfBirth(Date(p));
 				break;
 			case 6:
-				setFaculty(p);
+				setYearStart(Date(p));
 				break;
 			case 7:
-				setGroup(p);
+				setFaculty(p);
 				break;
 			case 8:
+				setGroup(p);
+				break;
+			case 9:
 				setRecordBook(p);
 				break;
 			default:
@@ -115,6 +119,11 @@ string Student::getGroup()
 	return Group;
 }
 
+char Student::getGender()
+{
+	return Gender;
+}
+
 void Student::setId(int id)
 {
 	Id = id;
@@ -160,13 +169,19 @@ void Student::setGroup(string g)
 	Group = g;
 }
 
-void Student::setStudent(int id, string name, string secname, string patro, Date dayofbirth,
+void Student::setGender(char c)
+{
+	Gender = c;
+}
+
+void Student::setStudent(int id, string name, string secname, string patro, char g, Date dayofbirth,
 	Date yearstart, string faculttm, string group, string recbook)
 {
 	setId(id);
 	setName(name);
 	setSecName(secname);
 	setPatronymic(patro);
+	setGender(g);
 	getDayOfBirth();
 	getYearStart();
 	setDayOfBirth(dayofbirth);
@@ -176,15 +191,11 @@ void Student::setStudent(int id, string name, string secname, string patro, Date
 	setGroup(group);
 }
 
-void Student::print() const
-{
-	cout << Name + " " + SecName + " " + Patronymic + " " << Group << ' ' << Faculty;
-}
 
 string Student::ToString()
 {
 	return to_string(Id) + " " + Name +
-		" " + SecName + " " + Patronymic +
+		" " + SecName + " " + Patronymic + " " + Gender +
 		" " + DayOfBirth.ToString() + " " +
 		YearStart.ToString() + " " + Faculty +
 		" " + Group + " " + RecordBook;
