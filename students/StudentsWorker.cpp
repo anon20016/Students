@@ -52,7 +52,7 @@ int StudentsWorker::AddStudent(Student s)
 		}
 		s.setId(mx + 1);
 		stud.emplace_back(s);
-		return mx + 1;
+		return s.getId();
 	}
 	else {
 		stud.emplace_back(s);

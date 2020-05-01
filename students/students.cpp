@@ -130,14 +130,23 @@ void AddStud(StudentsWorker * sw) {
 	struct tm tim;
 	time_t tt = time(NULL);
 	localtime_s(&tim, &tt);
-	dor = to_string(tim.tm_mday) + "/" + to_string(1 + tim.tm_mon) + "/" + to_string(1900 + tim.tm_year);
+	string now_day = to_string(tim.tm_mday);
+	string now_month = to_string(tim.tm_mon + 1);
+	if (now_day.size() == 1) {
+		now_day = "0" + now_day;
+	}
+	if (now_month.size() == 1) {
+		now_month = "0" + now_month;
+	}
+
+	dor = now_day + "/" + now_month + "/" + to_string(1900 + tim.tm_year);
 
 	enterString(&fac, "Введите факультет");
 	enterString(&group, "Введите группу");
 	enterString(&rb, "Введите номер зачетки");
 	id = sw->AddStudent(Student(-1, name, scname, patro, g, Date(dob), dor, fac, group, rb));
 
-	cout << "Студент добавлен под id = " << id << endl;
+	cout << "Студент добавлен под id = " << sw->getStudentByRecordBook(rb)->getId() << endl;
 }
 void DeleteStud(StudentsWorker * sw) {
 	int id;
