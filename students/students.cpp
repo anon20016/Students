@@ -1,5 +1,8 @@
 ﻿#include <iostream>
 #include <time.h>
+#include <string>
+
+#include <windows.h>;
 #include "StudentsWorker.h"
 #include "SubjectWorker.h"
 #include "MarksWorker.h"
@@ -192,7 +195,7 @@ void PrintStud(StudentsWorker * sw, SubjectWorker * sbw, MarksWorker* mw) {
 		ids = sw->getAllId(g);
 		list = sw->getInfo(g);
 		for (int i = 0; i < list.size(); i++) {
-			cout << list[i] << " Marks: ";
+			cout << list[i] << " Оценки: ";
 
 			m = mw->getMarksForStudent(ids[i]);
 			for (auto j : m) {
@@ -253,7 +256,8 @@ void DeleteSubj(SubjectWorker * sbw) {
 
 int main()
 {
-	setlocale(LC_ALL, "Russian");
+	SetConsoleCP(1251); 
+	SetConsoleOutputCP(1251); 
 	menu();
 	StudentsWorker sw("Students.txt");
 	SubjectWorker sbw("Subjects.txt");
