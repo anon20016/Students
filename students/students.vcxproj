@@ -164,11 +164,11 @@
     <ClInclude Include="Date.h" />
     <ClInclude Include="Mark.h" />
     <ClInclude Include="MarksWorker.h" />
-    <ClInclude Include="resource.h" />
     <ClInclude Include="Student.h" />
     <ClInclude Include="StudentsWorker.h" />
     <ClInclude Include="Subject.h" />
     <ClInclude Include="SubjectWorker.h" />
+    <ClInclude Include="Worker.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="Marks.txt" />

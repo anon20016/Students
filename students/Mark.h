@@ -2,13 +2,15 @@
 #include <string>
 using namespace std;
 
+// Класс Оценка
 class Mark
 {
 private:
 	int Id;
-	int Value;
-	int StudentId;
-	int SubjectId;
+	
+	int Value;		// Значение оценка
+	int StudentId;	// id студента с оценкой
+	int SubjectId;	// id предмета
 
 public:
 	Mark(int id, int v, int stdid, int subjid);

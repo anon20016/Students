@@ -1,10 +1,13 @@
 #include <iostream>
 #include "Subject.h"
+#include "Worker.h"
+
 #include <vector>
 #include <fstream>
 
 #pragma once
-class SubjectWorker
+// Класс работы со студентами
+class SubjectWorker : Worker
 {
 public:
 	SubjectWorker(string p);
@@ -20,7 +23,9 @@ public:
 
 	int Count();
 
+	// Получение списка названий предметов
 	string* subjectNames();
+	// Получение списка полной информации о предметах
 	string* getInfo();
 private:
 	string path;

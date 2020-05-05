@@ -2,12 +2,13 @@
 #include <string>
 #include <vector>
 #include <fstream>
-
+#include "Worker.h"
 #include "Mark.h"
 
 using namespace std;
 
-class MarksWorker
+// Класс работы с оценками
+class MarksWorker : Worker
 {
 public:
 	MarksWorker(string p);
@@ -15,6 +16,7 @@ public:
 	void Load();
 	void Save();
 
+	// Получение оцнки по id
 	Mark* getMarkById(int id);
 
 	int AddMark(Mark s);
@@ -25,7 +27,9 @@ public:
 
 	string* getInfo();
 
+	// Получение оценок для студента по заданному предмету
 	vector<int>* getMarksForStudentSubj(int studId, int SubjectId);
+	// Получение всех оценок для студента
 	vector<int> getMarksForStudent(int studId);
 
 

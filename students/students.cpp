@@ -78,6 +78,7 @@ void SetMark(StudentsWorker* sw, SubjectWorker* sbw, MarksWorker * mw) {
 	cout << "Выставлена оценка с id = " << id << endl;
 }
 
+// Процедура вывода информации о предметах
 void PrintSubj(StudentsWorker * sw, SubjectWorker * sbw, MarksWorker* mw) {
 	int comand;
 	string* list;
@@ -102,6 +103,7 @@ void PrintSubj(StudentsWorker * sw, SubjectWorker * sbw, MarksWorker* mw) {
 		break;
 	}
 }
+// Добавление нового студента
 void AddStud(StudentsWorker * sw) {
 	string name, scname, patro, dob, dor, fac, group, rb, id;
 	char g;
@@ -151,6 +153,7 @@ void AddStud(StudentsWorker * sw) {
 
 	cout << "Студент добавлен под id = " << sw->getStudentByRecordBook(rb)->getId() << endl;
 }
+// Удаление студента
 void DeleteStud(StudentsWorker * sw) {
 	int id;
 	cout << "Введите id студента для удаления ";
@@ -162,6 +165,7 @@ void DeleteStud(StudentsWorker * sw) {
 		cout << "Нет студента с таким id";
 	}
 }
+// Вывод информации о студентах
 void PrintStud(StudentsWorker * sw, SubjectWorker * sbw, MarksWorker* mw) {
 	vector<string> list;
 	char g = 'b';
@@ -233,6 +237,7 @@ void PrintStud(StudentsWorker * sw, SubjectWorker * sbw, MarksWorker* mw) {
 	}
 }
 
+// Добавление предмета
 void AddSubj(SubjectWorker * sbw) {
 	string name, info;
 	enterString(&name, "Введите название");
@@ -242,6 +247,7 @@ void AddSubj(SubjectWorker * sbw) {
 
 	cout << "Предмет добавлен под id = " << id << endl;
 }
+// Удаление предмета
 void DeleteSubj(SubjectWorker * sbw) {
 	int id;
 	cout << "Введите id предмета для удаления ";
