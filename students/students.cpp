@@ -255,12 +255,19 @@ void PrintStud(StudentsWorker * sw, SubjectWorker * sbw, MarksWorker* mw) {
 		}
 		break;
 	case 4:
+		int term;
+		cout << "Введите номер семестра или 0, если интересуют все семестры: ";
+		cin >> term;
+		if (term < 0 || term > 6) {
+			cout << "Ошибка ввода";
+			return;
+		}
 		ids = sw->getAllId(g);
 		list = sw->getInfo(g);
 		a.resize(list.size());
 		for (int i = 0; i < list.size(); i++) {
-			a[i].second = list[i];
-			m = mw->getMarksForStudent(ids[i]);
+			a[i].second = sw->getStudentById(ids[i])->getInfo();
+			m = mw->getMarksForStudent(ids[i], term);
 			double sum = 0;
 			for (auto j : m) {
 				sum += j;
@@ -275,7 +282,9 @@ void PrintStud(StudentsWorker * sw, SubjectWorker * sbw, MarksWorker* mw) {
 		sort(a.begin(), a.end());
 		reverse(a.begin(), a.end());
 		for (auto i : a) {
-			cout << i.second << " Средний балл: " << i.first << endl;
+			if (i.first != -1) {
+				cout << i.second << " Средний балл: " << i.first << endl;
+			}
 		}
 		break;
 	default:
