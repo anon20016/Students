@@ -11,14 +11,14 @@ Student::Student()
 	Patronymic = string();
 	
 	DayOfBirth = Date();
-	YearStart = Date();
+	YearStart = string();
 	Faculty = string();
 	Group = string();
 	RecordBook = string();
 }
 
 Student::Student(int id, string name, string secname, string patro, char g,  Date dayofbirth,
-	Date yearstart, string faculttm, string group, string recbook)
+	string yearstart, string faculttm, string group, string recbook)
 {
 	setStudent(id, name, secname, patro, g, dayofbirth, yearstart, faculttm, group, recbook);
 }
@@ -60,7 +60,7 @@ Student::Student(string s)
 				setDayOfBirth(Date(p));
 				break;
 			case 6:
-				setYearStart(Date(p));
+				setYearStart(p);
 				break;
 			case 7:
 				setFaculty(p);
@@ -99,7 +99,7 @@ Date Student::getDayOfBirth()
 	return DayOfBirth;
 }
 
-Date Student::getYearStart()
+string Student::getYearStart()
 {
 	return YearStart;
 }
@@ -149,7 +149,7 @@ void Student::setDayOfBirth(Date date)
 	DayOfBirth = date;
 }
 
-void Student::setYearStart(Date date)
+void Student::setYearStart(string date)
 {
 	YearStart = date;
 }
@@ -175,7 +175,7 @@ void Student::setGender(char c)
 }
 
 void Student::setStudent(int id, string name, string secname, string patro, char g, Date dayofbirth,
-	Date yearstart, string faculttm, string group, string recbook)
+	string yearstart, string faculttm, string group, string recbook)
 {
 	setId(id);
 	setName(name);
@@ -202,6 +202,6 @@ string Student::ToString()
 	return to_string(Id) + " " + Name +
 		" " + SecName + " " + Patronymic + " " + Gender +
 		" " + DayOfBirth.ToString() + " " +
-		YearStart.ToString() + " " + Faculty +
+		YearStart + " " + Faculty +
 		" " + Group + " " + RecordBook;
 }

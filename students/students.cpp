@@ -16,7 +16,7 @@ string getRecordBook(int id, StudentsWorker* stdw, SubjectWorker* sw, MarksWorke
 	string result = stdw->getStudentById(id)->getInfo() + "\n";
 	result += "Факультет " + stdw->getStudentById(id)->getFaculty() + "\n";
 	result += "Зачетная книжка " + stdw->getStudentById(id)->getRecordBook() + "\n";
-	result += "Год поступления " + to_string(stdw->getStudentById(id)->getYearStart().getYear()) + "\n";
+	result += "Год поступления " + stdw->getStudentById(id)->getYearStart() + "\n";
 
 
 	auto subjects = sw->getSubjectsId();
@@ -177,21 +177,7 @@ void AddStud(StudentsWorker * sw) {
 			return;
 		}
 	}	
-
-	struct tm tim;
-	time_t tt = time(NULL);
-	localtime_s(&tim, &tt);
-	string now_day = to_string(tim.tm_mday);
-	string now_month = to_string(tim.tm_mon + 1);
-	if (now_day.size() == 1) {
-		now_day = "0" + now_day;
-	}
-	if (now_month.size() == 1) {
-		now_month = "0" + now_month;
-	}
-
-	dor = now_day + "/" + now_month + "/" + to_string(1900 + tim.tm_year);
-
+	enterString(&dor, "Введите год поступления");
 	enterString(&fac, "Введите факультет");
 	enterString(&group, "Введите группу");
 	enterString(&rb, "Введите номер зачетки");
