@@ -1,10 +1,2 @@
-﻿  students.cpp
-C:\Users\anon2\OneDrive\Documents\Students\students\students.cpp(5,10): warning C4067: непредвиденные лексемы за директивой препроцессора, требуется newline
-C:\Users\anon2\OneDrive\Documents\Students\students\students.cpp(271,22): warning C4244: =: преобразование "double" в "_Ty1", возможна потеря данных
-          with
-          [
-              _Ty1=int
-          ]
-C:\Users\anon2\OneDrive\Documents\Students\students\students.cpp(341,6): warning C4101: id: неиспользованная локальная переменная
-C:\Users\anon2\OneDrive\Documents\Students\students\students.cpp(341,10): warning C4101: comand: неиспользованная локальная переменная
+﻿  Date.cpp
   students.vcxproj -> C:\Users\anon2\OneDrive\Documents\Students\x64\Debug\students.exe

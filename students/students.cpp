@@ -16,6 +16,7 @@ string getRecordBook(int id, StudentsWorker* stdw, SubjectWorker* sw, MarksWorke
 	string result = stdw->getStudentById(id)->getInfo() + "\n";
 	result += "Факультет " + stdw->getStudentById(id)->getFaculty() + "\n";
 	result += "Зачетная книжка " + stdw->getStudentById(id)->getRecordBook() + "\n";
+	result += "Год поступления " + to_string(stdw->getStudentById(id)->getYearStart().getYear()) + "\n";
 
 
 	auto subjects = sw->getSubjectsId();

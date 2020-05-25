@@ -51,7 +51,6 @@ string Date::ToString()
 {
 	day %= 100;
 	month %= 100;
-	year %= 100;
 	string temp = "";
 	if (day < 9) {
 		temp += "0";
