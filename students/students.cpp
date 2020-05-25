@@ -14,6 +14,10 @@ using namespace std;
 string getRecordBook(int id, StudentsWorker* stdw, SubjectWorker* sw, MarksWorker* mw)
 {
 	string result = stdw->getStudentById(id)->getInfo() + "\n";
+	result += "Факультет " + stdw->getStudentById(id)->getFaculty() + "\n";
+	result += "Зачетная книжка " + stdw->getStudentById(id)->getRecordBook() + "\n";
+
+
 	auto subjects = sw->getSubjectsId();
 
 	bool existenything = 0;
