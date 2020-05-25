@@ -7,7 +7,42 @@
 #include "SubjectWorker.h"
 #include "MarksWorker.h"
 
+
 using namespace std;
+
+
+string getRecordBook(int id, StudentsWorker* stdw, SubjectWorker* sw, MarksWorker* mw)
+{
+	string result = stdw->getStudentById(id)->getInfo() + "\n";
+	auto subjects = sw->getSubjectsId();
+
+	bool existenything = 0;
+	for (int term = 1; term <= 6; term++) {
+		string r = "Marks in " + to_string(term) + " term:\n";
+		bool exist = 0;
+		for (int i = 0; i < sw->Count(); i++) {
+			auto marks = mw->getMarksForStudentSubj(id, subjects[i], term);
+			if (marks.size() > 0) {
+				r += sw->getSubjectById(subjects[i])->getName() + ": ";
+				exist = 1;
+				for (auto j : marks) {
+					r += to_string(j) + " ";
+				}
+				r += "\n";
+			}
+		}
+		if (exist) {
+			result += r;
+			existenything = 1;
+		}
+	}
+	if (existenything) {
+		return result;
+	}
+	else {
+		return result + "У студента нет оценок";
+	}
+}
 
 //Проверка строки на правильность ввода (пустая строка)
 bool enterString(string* s, string text) {
@@ -45,6 +80,8 @@ void menu() {
 	cout << "5, если хотите добавить оценку\n";
 	cout << "6, если хотите вывести всех студентов\n";
 	cout << "7, если хотите вывести все предметы\n";
+	cout << "8, если хотите вывести зачетную книжду студента\n";
+
 
 	cout << "0, если хотите выйти из программы\n";
 }
@@ -61,20 +98,24 @@ void menuPrintSubj() {
 
 //Выставление оценки
 void SetMark(StudentsWorker* sw, SubjectWorker* sbw, MarksWorker * mw) {
-	int stdid, sbjid, val, id;
+	int stdid, sbjid, val, id, term;
 	cout << "Введите id студента ";
 	cin >> stdid;
 	if (!sw->existId(stdid)) {
 		cout << "Нет такого студента" << endl;
+		return;
 	}
 	cout << "Введите id предмета ";
 	cin >> sbjid;
 	if (!sbw->existId(sbjid)) {
 		cout << "Нет такого предмета" << endl;
+		return;
 	}
 	cout << "Введите оценку ";
 	cin >> val;
-	id = mw->AddMark(Mark(-1, val, stdid, sbjid));
+	cout << "Введите семестр ";
+	cin >> term;
+	id = mw->AddMark(Mark(-1, val, stdid, sbjid, term));
 	cout << "Выставлена оценка с id = " << id << endl;
 }
 
@@ -260,6 +301,26 @@ void DeleteSubj(SubjectWorker * sbw) {
 	}
 }
 
+void RecordBookInfo(StudentsWorker* sw, SubjectWorker* sbw, MarksWorker* mw) {
+	int id;
+	cout << "Введите id студнета ";
+	cin >> id;
+	if (sw->existId(id)) {
+		cout << getRecordBook(id, sw, sbw, mw) << endl;
+	}
+	else {
+		cout << "Нет такого студента, попробуйте снова: ";
+		cin >> id;
+		if (sw->existId(id)) {
+			cout << getRecordBook(id, sw, sbw, mw) << endl;
+		}
+		else {
+			cout << "Ошибка ввода";
+			return;
+		}
+	}
+}
+
 int main()
 {
 	SetConsoleCP(1251); 
@@ -268,6 +329,7 @@ int main()
 	StudentsWorker sw("Students.txt");
 	SubjectWorker sbw("Subjects.txt");
 	MarksWorker mw("Marks.txt");
+	
 
 	sw.Load();
 	sbw.Load();
@@ -299,6 +361,9 @@ int main()
 			break;
 		case 7:
 			PrintSubj(&sw, &sbw, &mw);
+			break;
+		case 8:
+			RecordBookInfo(&sw, &sbw, &mw);
 			break;
 		case 0:
 			sw.Save();

@@ -50,6 +50,8 @@ public:
 	void setStudent(int id, string name, string secname, string patro, char g, Date dayofbirth, Date yearstart,
 		string faculttm, string group, string recbook);
 
+	string getInfo();
+
 	string ToString();
 };
 

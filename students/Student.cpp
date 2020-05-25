@@ -191,6 +191,11 @@ void Student::setStudent(int id, string name, string secname, string patro, char
 	setGroup(group);
 }
 
+string Student::getInfo()
+{
+	return Name + " " + SecName + " " + Patronymic;
+}
+
 
 string Student::ToString()
 {

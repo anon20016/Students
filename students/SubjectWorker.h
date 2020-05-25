@@ -10,7 +10,7 @@
 class SubjectWorker : Worker
 {
 public:
-	SubjectWorker(string p);
+	SubjectWorker(string p = "");
 
 	void Load();
 	void Save();
@@ -27,6 +27,9 @@ public:
 	string* subjectNames();
 	// Получение списка полной информации о предметах
 	string* getInfo();
+
+	// Получение id всех предметов
+	vector<int> getSubjectsId();
 private:
 	string path;
 	vector<Subject> subjects;

@@ -11,7 +11,8 @@ using namespace std;
 class MarksWorker : Worker
 {
 public:
-	MarksWorker(string p);
+	MarksWorker(string p = "");
+
 
 	void Load();
 	void Save();
@@ -28,9 +29,9 @@ public:
 	string* getInfo();
 
 	// Получение оценок для студента по заданному предмету
-	vector<int>* getMarksForStudentSubj(int studId, int SubjectId);
+	vector<int> getMarksForStudentSubj(int studId, int SubjectId, int term = 0);
 	// Получение всех оценок для студента
-	vector<int> getMarksForStudent(int studId);
+	vector<int> getMarksForStudent(int studId, int term = 0);
 
 
 private:

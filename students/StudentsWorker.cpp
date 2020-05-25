@@ -13,6 +13,8 @@ void StudentsWorker::Load()
 	while (getline(in, q)) {
 		stud.emplace_back(Student(q));		
 	}
+	in.close();
+
 }
 
 void StudentsWorker::Save()
@@ -25,9 +27,9 @@ void StudentsWorker::Save()
 
 Student* StudentsWorker::getStudentById(int id)
 {
-	for (auto i : stud) {
-		if (i.getId() == id) {
-			return &i;
+	for (int i = 0; i < stud.size(); i++) {
+		if (stud[i].getId() == id) {
+			return &stud[i];
 		}
 	}
 	return NULL;

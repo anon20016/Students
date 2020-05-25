@@ -12,6 +12,7 @@ void MarksWorker::Load()
 	while (getline(in, q)) {
 		marks.emplace_back(Mark(q));
 	}
+	in.close();
 }
 
 void MarksWorker::Save()
@@ -24,9 +25,9 @@ void MarksWorker::Save()
 
 Mark* MarksWorker::getMarkById(int id)
 {
-	for (auto i : marks) {
-		if (i.getId() == id) {
-			return &i;
+	for (int i = 0; i < marks.size(); i++) {
+		if (marks[i].getId() == id) {
+			return &marks[i];
 		}
 	}
 	return NULL;
@@ -87,22 +88,22 @@ string* MarksWorker::getInfo()
 	return a;
 }
 
-vector<int>* MarksWorker::getMarksForStudentSubj(int studid, int subjectId)
+vector<int> MarksWorker::getMarksForStudentSubj(int studid, int subjectId, int term)
 {
 	vector<int> m;
 	for (auto i : marks) {
-		if (i.getStudentId() == studid && i.getSubjectId() == subjectId) {
+		if (i.getStudentId() == studid && i.getSubjectId() == subjectId && (term == 0 || i.getTerm() == term)) {
 			m.emplace_back(i.getValue());
 		}
 	}
-	return &m;
+	return m;
 }
 
-vector<int> MarksWorker::getMarksForStudent(int studId)
+vector<int> MarksWorker::getMarksForStudent(int studId, int term)
 {
 	vector<int> m;
 	for (auto i : marks) {
-		if (i.getStudentId() == studId) {
+		if (i.getStudentId() == studId && (term == 0 || i.getTerm() == term)) {
 			m.emplace_back(i.getValue());
 		}
 	}

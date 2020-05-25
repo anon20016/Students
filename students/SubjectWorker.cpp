@@ -12,6 +12,7 @@ void SubjectWorker::Load()
 	while (getline(in, q)) {
 		subjects.emplace_back(Subject(q));
 	}
+	in.close();
 }
 
 void SubjectWorker::Save()
@@ -24,9 +25,9 @@ void SubjectWorker::Save()
 
 Subject* SubjectWorker::getSubjectById(int id)
 {
-	for (auto i : subjects) {
-		if (i.getId() == id) {
-			return &i;
+	for (int i = 0; i < subjects.size(); i++) {
+		if (subjects[i].getId() == id) {
+			return &subjects[i];
 		}
 	}
 	return NULL;
@@ -92,6 +93,15 @@ string* SubjectWorker::getInfo()
 	string* a = new string[subjects.size()];
 	for (int i = 0; i < subjects.size(); i++) {
 		a[i] = subjects[i].ToString();
+	}
+	return a;
+}
+
+vector<int> SubjectWorker::getSubjectsId()
+{
+	vector<int> a(subjects.size());
+	for (int i = 0; i < subjects.size(); i++) {
+		a[i] = subjects[i].getId();
 	}
 	return a;
 }

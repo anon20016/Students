@@ -1,8 +1,8 @@
 #include "Mark.h"
 
-Mark::Mark(int id, int v, int stdid, int subjid)
+Mark::Mark(int id, int v, int stdid, int subjid, int trm)
 {
-	setMark(id, v, stdid, subjid);
+	setMark(id, v, stdid, subjid, trm);
 }
 Mark::Mark(string s)
 {
@@ -29,6 +29,9 @@ Mark::Mark(string s)
 			case 3:
 				setSubjectId(stoi(p));
 				break;
+			case 4:
+				setTurm(stoi(p));
+				break;
 			default:
 				break;
 			}
@@ -38,7 +41,7 @@ Mark::Mark(string s)
 }
 Mark::Mark(const Mark& m)
 {
-	setMark(m.Id, m.Value, m.StudentId, m.SubjectId);
+	setMark(m.Id, m.Value, m.StudentId, m.SubjectId, m.term);
 }
 int Mark::getId()
 {
@@ -48,6 +51,11 @@ int Mark::getId()
 int Mark::getValue()
 {
 	return Value;
+}
+
+int Mark::getTerm()
+{
+	return term;
 }
 
 int Mark::getStudentId()
@@ -80,15 +88,22 @@ void Mark::setSubjectId(int subjid)
 	SubjectId = subjid;
 }
 
-void Mark::setMark(int id, int v, int stdid, int subjid)
+void Mark::setTurm(int tem)
+{
+	term = tem;
+}
+
+
+void Mark::setMark(int id, int v, int stdid, int subjid, int trm)
 {
 	setId(id);
 	setValue(v);
 	setStudentId(stdid);
 	setSubjectId(subjid);
+	setTurm(trm);
 }
 
 string Mark::ToString()
 {
-	return to_string(Id) + " " + to_string(Value) + " " + to_string(StudentId) + " " + to_string(SubjectId);
+	return to_string(Id) + " " + to_string(Value) + " " + to_string(StudentId) + " " + to_string(SubjectId) + " " + to_string(term);
 }

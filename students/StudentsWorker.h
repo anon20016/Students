@@ -10,7 +10,7 @@
 class StudentsWorker : Worker
 {
 public:
-	StudentsWorker(string p);
+	StudentsWorker(string p = "");
 
 	void Load();
 	void Save();
